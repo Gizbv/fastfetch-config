@@ -1,0 +1,266 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/master/doc/json_schema.json",
+
+    // Названия и идентификаторы устройств хранятся в devices.conf.
+  // При замене оборудования изменяйте только devices.conf.
+  // Динамические индикаторы использования дисков и памяти
+// вынесены во вспомогательные скрипты:
+//   usage.sh        — заполненность дисков
+//   memory-usage.sh — использование оперативной памяти
+//
+// Не объединяйте диски в один многострочный command:
+// каждый диск должен оставаться отдельным модулем.
+// Это необходимо для корректного позиционирования логотипа Chafa.
+//
+// Для дисков используется keyWidth: 17,
+// для Memory/Model — keyWidth: 8,
+// чтобы значения начинались в одной колонке.
+
+  "logo": {
+    "type": "chafa",
+    "source": "/home/giz/.config/fastfetch/avatar.png",
+    "width": 29,
+    "height": 37,
+    "padding": {
+      "right": 4
+    },
+    "chafa": {
+      "colors": "truecolor",
+      "symbols": "all"
+    }
+  },
+
+  "modules": [
+
+    // ═══════════════════════════════════════════════════════
+    // СИСТЕМА
+    // ═══════════════════════════════════════════════════════
+
+    {
+      "type": "custom",
+      "format": "──────────────────────────── СИСТЕМА ────────────────────────────",
+      "outputColor": "green"
+    },
+
+    "os",
+
+    {
+      "type": "command",
+      "key": "Host",
+      "text": "hostname"
+    },
+
+    "kernel",
+    "uptime",
+
+    {
+      "type": "command",
+      "key": "Updates",
+      "text": "updates=$(pacman -Qu 2>/dev/null | wc -l); if [ \"$updates\" -eq 0 ]; then echo 'System is up to date'; else echo \"$updates updates available\"; fi"
+    },
+
+    "shell",
+    "de",
+    "wm",
+
+
+    // ═══════════════════════════════════════════════════════
+    // ДИСПЛЕИ
+    // ═══════════════════════════════════════════════════════
+
+    {
+      "type": "custom",
+      "format": "──────────────────────────── ДИСПЛЕИ ────────────────────────────",
+      "outputColor": "green"
+    },
+
+{
+  "type": "command",
+  "key": "Monitor 1",
+"text": "source \"$HOME/.config/fastfetch/devices.conf\"; mode=$(for f in /sys/class/drm/card*-\"$MONITOR_1_PORT\"/modes; do [ -r \"$f\" ] && head -n1 \"$f\" && break; done); [ -z \"$mode\" ] && mode=\"$MONITOR_1_FALLBACK_MODE\"; primary=$(kscreen-doctor -o 2>/dev/null | grep -B20 'priority 1' | grep -F -o \"$MONITOR_1_PORT\" | head -n1); if [ \"$primary\" = \"$MONITOR_1_PORT\" ]; then echo -e \"$MONITOR_1, ${mode} @ ${MONITOR_1_SIZE}, ${MONITOR_1_REFRESH} \\033[32m*\\033[0m\"; else echo \"$MONITOR_1, ${mode} @ ${MONITOR_1_SIZE}, ${MONITOR_1_REFRESH}\"; fi"
+},
+
+{
+  "type": "command",
+  "key": "Monitor 2",
+"text": "source \"$HOME/.config/fastfetch/devices.conf\"; mode=$(for f in /sys/class/drm/card*-\"$MONITOR_2_PORT\"/modes; do [ -r \"$f\" ] && head -n1 \"$f\" && break; done); [ -z \"$mode\" ] && mode=\"$MONITOR_2_FALLBACK_MODE\"; primary=$(kscreen-doctor -o 2>/dev/null | grep -B20 'priority 1' | grep -F -o \"$MONITOR_2_PORT\" | head -n1); if [ \"$primary\" = \"$MONITOR_2_PORT\" ]; then echo -e \"$MONITOR_2, ${mode} @ ${MONITOR_2_SIZE}, ${MONITOR_2_REFRESH} \\033[32m*\\033[0m\"; else echo \"$MONITOR_2, ${mode} @ ${MONITOR_2_SIZE}, ${MONITOR_2_REFRESH}\"; fi"
+},
+
+    {
+      "type": "command",
+      "key": "Running VMs",
+      "text": "vms=$(VBoxManage list runningvms | awk -F'\"' '{print $2}' | paste -sd, - | sed 's/,/, /g'); if [ -n \"$vms\" ]; then echo \"$vms (VirtualBox)\"; else echo \"\"; fi"
+    },
+
+
+    // ═══════════════════════════════════════════════════════
+    // АУДИО
+    // ═══════════════════════════════════════════════════════
+
+    {
+      "type": "custom",
+      "format": "───────────────────────────── АУДИО ─────────────────────────────",
+      "outputColor": "green"
+    },
+
+    {
+      "type": "command",
+      "key": "Headphones",
+      "text": "source \"$HOME/.config/fastfetch/devices.conf\"; active=0; for id in $(wpctl list audio sinks 2>/dev/null | awk '/audio\\/sink/ {print $1}'); do if wpctl inspect \"$id\" 2>/dev/null | grep -qi \"alsa.components = \\\"USB$HEADPHONES_ID\\\"\"; then if wpctl list audio sinks 2>/dev/null | awk -v id=\"$id\" '$1 == id && $NF == \"*\"' | grep -q .; then active=1; fi; break; fi; done; if [ \"$active\" -eq 1 ]; then echo -e \"$HEADPHONES \\033[32m*\\033[0m\"; else echo \"$HEADPHONES\"; fi"
+    },
+
+    {
+      "type": "command",
+      "key": "Speakers",
+      "text": "source \"$HOME/.config/fastfetch/devices.conf\"; active=0; for id in $(wpctl list audio sinks 2>/dev/null | awk '/audio\\/sink/ {print $1}'); do if wpctl inspect \"$id\" 2>/dev/null | grep -qi \"alsa.components = \\\"USB$SPEAKERS_ID\\\"\"; then if wpctl list audio sinks 2>/dev/null | awk -v id=\"$id\" '$1 == id && $NF == \"*\"' | grep -q .; then active=1; fi; break; fi; done; if [ \"$active\" -eq 1 ]; then echo -e \"$SPEAKERS \\033[32m*\\033[0m\"; else echo \"$SPEAKERS\"; fi"
+    },
+
+    {
+      "type": "command",
+      "key": "Microphone",
+      "text": "source \"$HOME/.config/fastfetch/devices.conf\"; active=0; for id in $(wpctl list audio sources 2>/dev/null | awk '/audio\\/source/ {print $1}'); do if wpctl inspect \"$id\" 2>/dev/null | grep -qi \"alsa.components = \\\"USB$MICROPHONE_ID\\\"\"; then if wpctl list audio sources 2>/dev/null | awk -v id=\"$id\" '$1 == id && $NF == \"*\"' | grep -q .; then active=1; fi; break; fi; done; if [ \"$active\" -eq 1 ]; then echo -e \"$MICROPHONE \\033[32m*\\033[0m\"; else echo \"$MICROPHONE\"; fi"
+    },
+
+    // ═══════════════════════════════════════════════════════
+    // ПЛАТФОРМА
+    // ═══════════════════════════════════════════════════════
+
+    {
+      "type": "custom",
+      "format": "─────────────────────────── ПЛАТФОРМА ───────────────────────────",
+      "outputColor": "green"
+    },
+
+    "cpu",
+    "gpu",
+    "board",
+
+
+    // ═══════════════════════════════════════════════════════
+    // ПАМЯТЬ
+    // ═══════════════════════════════════════════════════════
+
+    {
+      "type": "custom",
+      "format": "──────────────────────────── ПАМЯТЬ ─────────────────────────────",
+      "outputColor": "green"
+    },
+
+{
+  "type": "command",
+  "key": "Memory",
+  "keyWidth": 8,
+  "text": "~/.config/fastfetch/memory-usage.sh"
+},
+
+{
+  "type": "command",
+  "key": "Model",
+  "keyWidth": 8,
+  "text": "source \"$HOME/.config/fastfetch/devices.conf\"; echo \"$MEMORY\""
+},
+
+// ═══════════════════════════════════════════════════════
+// ДИСКИ
+// ═══════════════════════════════════════════════════════
+
+{
+  "type": "custom",
+  "format": "───────────────────────────── ДИСКИ ─────────────────────────────",
+  "outputColor": "green"
+},
+
+{
+  "type": "command",
+  "key": "/",
+  "keyWidth": 17,
+  "text": "~/.config/fastfetch/usage.sh /"
+},
+
+{
+  "type": "command",
+  "key": "/mnt/DOWNLOADS",
+  "keyWidth": 17,
+  "text": "~/.config/fastfetch/usage.sh /mnt/DOWNLOADS"
+},
+
+{
+  "type": "command",
+  "key": "/mnt/FAST_GAMES",
+  "keyWidth": 17,
+  "text": "~/.config/fastfetch/usage.sh /mnt/FAST_GAMES"
+},
+
+{
+  "type": "command",
+  "key": "/mnt/GAMES",
+  "keyWidth": 17,
+  "text": "~/.config/fastfetch/usage.sh /mnt/GAMES"
+},
+
+{
+  "type": "command",
+  "key": "/mnt/JUPITER",
+  "keyWidth": 17,
+  "text": "~/.config/fastfetch/usage.sh /mnt/JUPITER"
+},
+
+{
+  "type": "command",
+  "key": "/mnt/MEDIA",
+  "keyWidth": 17,
+  "text": "~/.config/fastfetch/usage.sh /mnt/MEDIA"
+},
+
+{
+  "type": "command",
+  "key": "/mnt/SOFT",
+  "keyWidth": 17,
+  "text": "~/.config/fastfetch/usage.sh /mnt/SOFT"
+},
+
+{
+  "type": "command",
+  "key": "/mnt/STORAGE",
+  "keyWidth": 17,
+  "text": "~/.config/fastfetch/usage.sh /mnt/STORAGE"
+},
+
+    // ═══════════════════════════════════════════════════════
+    // СЕТЬ
+    // ═══════════════════════════════════════════════════════
+
+    {
+      "type": "custom",
+      "format": "───────────────────────────── СЕТЬ ──────────────────────────────",
+      "outputColor": "green"
+    },
+
+    "localip",
+
+
+    // ═══════════════════════════════════════════════════════
+    // ПЕРИФЕРИЯ
+    // ═══════════════════════════════════════════════════════
+
+    {
+      "type": "custom",
+      "format": "─────────────────────────── ПЕРИФЕРИЯ ───────────────────────────",
+      "outputColor": "green"
+    },
+
+    {
+      "type": "command",
+      "key": "Mouse",
+      "text": "source \"$HOME/.config/fastfetch/devices.conf\"; if lsusb | grep -q \"$MOUSE_ID\"; then echo \"$MOUSE\"; else echo 'Not detected'; fi"
+    },
+
+    {
+      "type": "command",
+      "key": "Keyboard",
+      "text": "source \"$HOME/.config/fastfetch/devices.conf\"; if lsusb | grep -q \"$KEYBOARD_ID\"; then echo \"$KEYBOARD\"; else echo 'Not detected'; fi"
+    },
+
+    "break"
+  ]
+}
