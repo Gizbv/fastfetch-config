@@ -1,0 +1,109 @@
+Если изменил FastFetch
+
+Предположим, ты что-то поменял в:
+
+~/.config/fastfetch/
+1. Сначала проверь результат
+
+Запусти:
+
+fastfetch
+
+Убедись, что всё выглядит так, как задумано.
+
+2. Перейди в репозиторий
+cd ~/cachy-config
+3. Посмотри, что изменилось
+git status
+
+Git покажет изменённые файлы, например:
+
+modified: fastfetch/config.jsonc
+
+Если хочешь посмотреть конкретно, что изменилось:
+
+git diff
+
+Вышел просмотр через less — нажми q.
+
+4. Скопируй изменённые файлы в репозиторий
+
+Это важный момент: Git следит за файлами в ~/cachy-config, а не непосредственно за ~/.config/fastfetch.
+
+Например:
+
+cp ~/.config/fastfetch/config.jsonc ~/cachy-config/fastfetch/
+
+Если изменял devices.conf:
+
+cp ~/.config/fastfetch/devices.conf ~/cachy-config/fastfetch/
+
+Если изменял несколько файлов:
+
+cp ~/.config/fastfetch/* ~/cachy-config/fastfetch/
+5. Проверь изменения ещё раз
+cd ~/cachy-config
+git status
+git diff
+
+Убедись, что там именно те изменения, которые ты хотел сохранить.
+
+6. Добавь изменения в Git
+git add .
+7. Создай коммит
+
+Напиши коротко, что именно изменил:
+
+git commit -m "Update FastFetch memory display"
+
+Например, если изменил оформление:
+
+git commit -m "Improve FastFetch layout"
+
+Если поправил обнаружение устройств:
+
+git commit -m "Fix device detection"
+8. Отправь изменения на GitHub
+git push
+
+Готово.
+
+После этого изменения находятся сразу в трёх местах:
+
+~/.config/fastfetch/
+        ↓
+~/cachy-config/
+        ↓
+GitHub
+
+А твой ежемесячный Clonezilla добавляет четвёртый уровень защиты — полный образ системы.
+
+Самая короткая шпаргалка
+
+Если ты уже знаешь, что именно изменил:
+
+cp ~/.config/fastfetch/* ~/cachy-config/fastfetch/
+cd ~/cachy-config
+git status
+git diff
+git add .
+git commit -m "Описание изменений"
+git push
+И ещё одно правило
+
+Не надо делать новый тег после каждого изменения.
+
+v4.0-beta — это наша текущая контрольная точка.
+
+Если мы внесём несколько небольших исправлений — просто коммиты:
+
+Fix memory display
+Fix monitor detection
+Improve audio detection
+Adjust layout
+
+А когда накопится достаточно изменений и появится действительно новая версия — тогда:
+
+v4.1-beta
+
+И уже её фиксируем тегом.
