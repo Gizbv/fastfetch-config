@@ -3,6 +3,7 @@
 Персональные конфигурации для CachyOS.
 
 ## FastFetch
+![FastFetch beta 4.0](fastfetch/Screen.png)
 
 Текущая версия конфигурации: **beta 4.0**
 
