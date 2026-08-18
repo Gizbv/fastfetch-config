@@ -38,10 +38,21 @@ mkdir -p ~/.config/fastfetch
 cp -r fastfetch/* ~/.config/fastfetch/
 ```
 
-
 После этого FastFetch будет использовать `config.jsonc` и автоматически подключать `devices.conf`.
 
-## Git
+
+### Изображение (логотип)
+
+Основной логотип FastFetch хранится в репозитории:
+
+`fastfetch/assets/avatar.png`
+
+После установки его необходимо скопировать непосредственно в каталог конфигурации:
+
+```bash
+cp fastfetch/assets/avatar.png ~/.config/fastfetch/avatar.png
+
+### Git
 
 Основная ветка:
 
