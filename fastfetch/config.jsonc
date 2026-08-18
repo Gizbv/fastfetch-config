@@ -77,13 +77,13 @@
 {
   "type": "command",
   "key": "Monitor 1",
-"text": "source \"$HOME/.config/fastfetch/devices.conf\"; mode=$(for f in /sys/class/drm/card*-\"$MONITOR_1_PORT\"/modes; do [ -r \"$f\" ] && head -n1 \"$f\" && break; done); [ -z \"$mode\" ] && mode=\"$MONITOR_1_FALLBACK_MODE\"; primary=$(kscreen-doctor -o 2>/dev/null | grep -B20 'priority 1' | grep -F -o \"$MONITOR_1_PORT\" | head -n1); if [ \"$primary\" = \"$MONITOR_1_PORT\" ]; then echo -e \"$MONITOR_1, ${mode} @ ${MONITOR_1_SIZE}, ${MONITOR_1_REFRESH} \\033[32m*\\033[0m\"; else echo \"$MONITOR_1, ${mode} @ ${MONITOR_1_SIZE}, ${MONITOR_1_REFRESH}\"; fi"
+  "text": "source \"$HOME/.config/fastfetch/devices.conf\"; mode=$(kscreen-doctor -o 2>/dev/null | grep \"$MONITOR_1_PORT\" -A20 | grep 'Geometry:' | sed 's/.*Geometry:[[:space:]]*//' | awk '{print $2}'); [ -z \"$mode\" ] && mode=\"$MONITOR_1_FALLBACK_MODE\"; primary=$(kscreen-doctor -o 2>/dev/null | grep -B20 'priority 1' | grep -F -o \"$MONITOR_1_PORT\" | head -n1); if [ \"$primary\" = \"$MONITOR_1_PORT\" ]; then echo -e \"$MONITOR_1, ${mode} @ ${MONITOR_1_SIZE}, ${MONITOR_1_REFRESH} \\033[32m*\\033[0m\"; else echo \"$MONITOR_1, ${mode} @ ${MONITOR_1_SIZE}, ${MONITOR_1_REFRESH}\"; fi"
 },
 
 {
   "type": "command",
   "key": "Monitor 2",
-"text": "source \"$HOME/.config/fastfetch/devices.conf\"; mode=$(for f in /sys/class/drm/card*-\"$MONITOR_2_PORT\"/modes; do [ -r \"$f\" ] && head -n1 \"$f\" && break; done); [ -z \"$mode\" ] && mode=\"$MONITOR_2_FALLBACK_MODE\"; primary=$(kscreen-doctor -o 2>/dev/null | grep -B20 'priority 1' | grep -F -o \"$MONITOR_2_PORT\" | head -n1); if [ \"$primary\" = \"$MONITOR_2_PORT\" ]; then echo -e \"$MONITOR_2, ${mode} @ ${MONITOR_2_SIZE}, ${MONITOR_2_REFRESH} \\033[32m*\\033[0m\"; else echo \"$MONITOR_2, ${mode} @ ${MONITOR_2_SIZE}, ${MONITOR_2_REFRESH}\"; fi"
+  "text": "source \"$HOME/.config/fastfetch/devices.conf\"; mode=$(kscreen-doctor -o 2>/dev/null | grep \"$MONITOR_2_PORT\" -A20 | grep 'Geometry:' | sed 's/.*Geometry:[[:space:]]*//' | awk '{print $2}'); [ -z \"$mode\" ] && mode=\"$MONITOR_2_FALLBACK_MODE\"; primary=$(kscreen-doctor -o 2>/dev/null | grep -B20 'priority 1' | grep -F -o \"$MONITOR_2_PORT\" | head -n1); if [ \"$primary\" = \"$MONITOR_2_PORT\" ]; then echo -e \"$MONITOR_2, ${mode} @ ${MONITOR_2_SIZE}, ${MONITOR_2_REFRESH} \\033[32m*\\033[0m\"; else echo \"$MONITOR_2, ${mode} @ ${MONITOR_2_SIZE}, ${MONITOR_2_REFRESH}\"; fi"
 },
 
     {
