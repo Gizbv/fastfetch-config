@@ -25,6 +25,10 @@
 set -u
 
 TARGET="${1:-/}"
+
+FSTYPE="$(findmnt -no FSTYPE --target "$TARGET" 2>/dev/null)"
+FSTYPE="${FSTYPE^^}"
+
 BAR_WIDTH=16
 
 read -r SIZE USED PERCENT <<< "$(df -hP "$TARGET" | awk 'NR==2 {
@@ -62,7 +66,7 @@ fi
 EMPTY_COLOR='\033[2;32m'
 RESET='\033[0m'
 
-printf '%7s / %-5s  [%b%s%b%b%s%b] %3s\n' \
+printf '%7s / %-5s  [%b%s%b%b%s%b] %3s  %s\n' \
     "$USED" \
     "$SIZE" \
     "$COLOR" \
@@ -71,4 +75,5 @@ printf '%7s / %-5s  [%b%s%b%b%s%b] %3s\n' \
     "$EMPTY_COLOR" \
     "$EMPTY_BAR" \
     "$RESET" \
-    "$PERCENT"
+    "$PERCENT" \
+    "$FSTYPE"
