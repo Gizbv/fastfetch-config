@@ -51,7 +51,7 @@ cp -r fastfetch/* ~/.config/fastfetch/
 
 ```bash
 cp fastfetch/assets/avatar.png ~/.config/fastfetch/avatar.png
-
+```
 ### Git
 
 Основная ветка:
