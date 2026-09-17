@@ -86,11 +86,11 @@
   "text": "source \"$HOME/.config/fastfetch/devices.conf\"; mode=$(kscreen-doctor -o 2>/dev/null | grep \"$MONITOR_2_PORT\" -A20 | grep 'Geometry:' | sed 's/.*Geometry:[[:space:]]*//' | awk '{print $2}'); [ -z \"$mode\" ] && mode=\"$MONITOR_2_FALLBACK_MODE\"; primary=$(kscreen-doctor -o 2>/dev/null | grep -B20 'priority 1' | grep -F -o \"$MONITOR_2_PORT\" | head -n1); if [ \"$primary\" = \"$MONITOR_2_PORT\" ]; then echo -e \"$MONITOR_2, ${mode} @ ${MONITOR_2_SIZE}, ${MONITOR_2_REFRESH} \\033[32m*\\033[0m\"; else echo \"$MONITOR_2, ${mode} @ ${MONITOR_2_SIZE}, ${MONITOR_2_REFRESH}\"; fi"
 },
 
-    {
-      "type": "command",
-      "key": "Running VMs",
-      "text": "vms=$(VBoxManage list runningvms | awk -F'\"' '{print $2}' | paste -sd, - | sed 's/,/, /g'); if [ -n \"$vms\" ]; then echo \"$vms (VirtualBox)\"; else echo \"\"; fi"
-    },
+{
+  "type": "command",
+  "key": "Running VMs",
+  "text": "~/.config/fastfetch/running-vms.sh"
+},
 
 
     // ═══════════════════════════════════════════════════════
