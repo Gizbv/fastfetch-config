@@ -76,24 +76,46 @@ lsusb
 
 ### Установка FastFetch
 
-Скопировать содержимое каталога `fastfetch` в:
+Клонируйте репозиторий и перейдите в его каталог:
+
+```bash
+git clone [https://github.com/Gizbv/fastfetch-config.git](https://github.com/Gizbv/fastfetch-config.git)
+cd fastfetch-config
+```
+
+Скопируйте конфигурацию FastFetch:
 
 ```bash
 mkdir -p ~/.config/fastfetch
 cp -a fastfetch/. ~/.config/fastfetch/
 ```
 
-Создать локальный файл конфигурации устройств из примера:
+Создайте локальный файл устройств из шаблона:
 
 ```bash
 cp ~/.config/fastfetch/devices.conf.example \
    ~/.config/fastfetch/devices.conf
 ```
 
-Затем изменить значения в соответствии со своим оборудованием:
+Настройте `devices.conf` под своё оборудование:
 
 ```bash
 nano ~/.config/fastfetch/devices.conf
+```
+
+Сделайте вспомогательные скрипты исполняемыми:
+
+```bash
+chmod +x \
+  ~/.config/fastfetch/memory-usage.sh \
+  ~/.config/fastfetch/usage.sh \
+  ~/.config/fastfetch/running-vms.sh
+```
+
+Запустите FastFetch:
+
+```bash
+fastfetch
 ```
 
 После этого FastFetch будет использовать `config.jsonc` и локальный `devices.conf`.
