@@ -8,7 +8,9 @@
 # Формат: shell-переменные.
 # Файл подключается через source из config.jsonc.
 #
-# При замене оборудования сначала изменяйте значения здесь.
+# Скопируйте этот файл в devices.conf и измените значения
+# под своё оборудование.
+#
 # Логику вывода в config.jsonc менять не требуется.
 #
 # Динамические показатели системы (диски и память)
@@ -18,7 +20,7 @@
 # ─────────────────────────── ДИСПЛЕИ ───────────────────────────
 
 # Имя монитора, отображаемое в FastFetch.
-MONITOR_1="DEXP DQ32N1"
+MONITOR_1="Monitor 1"
 
 # Физический видеовыход, к которому подключён монитор.
 # Проверить можно через: kscreen-doctor -o
@@ -26,49 +28,55 @@ MONITOR_1_PORT="DP-1"
 
 # Резервное разрешение, используемое если FastFetch
 # не сможет получить режим непосредственно из DRM.
-MONITOR_1_FALLBACK_MODE="2560x1440"
+MONITOR_1_FALLBACK_MODE="1920x1080"
 
 # Физический размер и частота обновления.
-MONITOR_1_SIZE='32"'
-MONITOR_1_REFRESH='100 Hz'
+MONITOR_1_SIZE='24"'
+MONITOR_1_REFRESH='60 Hz'
 
 
-MONITOR_2="Acer CB272 D"
+MONITOR_2="Monitor 2"
 MONITOR_2_PORT="DP-2"
 
-MONITOR_2_FALLBACK_MODE="1080x1920"
+MONITOR_2_FALLBACK_MODE="1920x1080"
 
-MONITOR_2_SIZE='27"'
-MONITOR_2_REFRESH='75 Hz'
+MONITOR_2_SIZE='24"'
+MONITOR_2_REFRESH='60 Hz'
+
 
 # ─────────────────────────── ПЕРИФЕРИЯ ────────────────────────
 
 # Название мыши и её USB VID:PID.
 # Проверить можно через: lsusb
-MOUSE="A4Tech X710BK"
-MOUSE_ID="09da:9090"
+MOUSE="My Mouse"
+MOUSE_ID="0000:0000"
 
 # Название клавиатуры и её USB VID:PID.
-KEYBOARD="DEXP Omni"
-KEYBOARD_ID="320f:505b"
+# Проверить можно через: lsusb
+KEYBOARD="My Keyboard"
+KEYBOARD_ID="0000:0000"
 
 
 # ───────────────────────────── АУДИО ───────────────────────────
+#
+# USB VID:PID можно посмотреть командой: lsusb
+# В PipeWire/WirePlumber сопоставление выполняется
+# по параметру alsa.components.
 
 # Название наушников и USB VID:PID.
-# VID:PID используется для поиска устройства в PipeWire.
-HEADPHONES="G435 Wireless Gaming Headset"
-HEADPHONES_ID="046d:0acb"
+HEADPHONES="My Headphones"
+HEADPHONES_ID="0000:0000"
 
 # Название колонок и USB VID:PID.
-SPEAKERS="Defender Avante X40"
-SPEAKERS_ID="1b3f:2008"
+SPEAKERS="My Speakers"
+SPEAKERS_ID="0000:0000"
 
 # Название микрофона и USB VID:PID.
-MICROPHONE="FIFINE T732"
-MICROPHONE_ID="3142:7301"
+MICROPHONE="My Microphone"
+MICROPHONE_ID="0000:0000"
+
 
 # ───────────────────────────── ПАМЯТЬ ──────────────────────────
 
 # Модель и характеристики установленной оперативной памяти.
-MEMORY="Kingston 32 GiB DDR4-3600 CL16"
+MEMORY="32 GiB DDR4-3200"
