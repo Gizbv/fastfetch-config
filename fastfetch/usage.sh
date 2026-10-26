@@ -26,6 +26,11 @@ set -u
 
 TARGET="${1:-/}"
 
+# Не выводить отсутствующие точки монтирования
+if [[ ! -e "$TARGET" ]]; then
+    exit 0
+fi
+
 FSTYPE="$(findmnt -no FSTYPE --target "$TARGET" 2>/dev/null)"
 FSTYPE="${FSTYPE^^}"
 
