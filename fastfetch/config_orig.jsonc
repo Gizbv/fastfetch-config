@@ -1,0 +1,50 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/master/doc/json_schema.json",
+  "modules": [
+    "title",
+    "separator",
+    "os",
+    "host",
+    "kernel",
+    "uptime",
+    "packages",
+    "shell",
+        {
+        "type": "command",
+        "key": "Display (DEXP DQ32N1)",
+        "text": "echo '2560x1440 in 32\", 100 Hz [External] *'"
+    },
+    {
+        "type": "command",
+        "key": "Display (CB272 D)",
+        "text": "echo '1080x1920 in 27\", 75 Hz [External]'"
+    },
+    
+        {
+        "type": "command",
+        "key": "Running VMs",
+        "text": "vms=$(VBoxManage list runningvms | awk -F'\"' '{print $2}' | paste -sd, - | sed 's/,/, /g'); if [ -n \"$vms\" ]; then echo \"$vms (VirtualBox)\"; else echo \"\"; fi"
+    },
+
+    "de",
+    "wm",
+    "wmtheme",
+    "theme",
+    "icons",
+    "font",
+    "cursor",
+    "terminal",
+    "terminalfont",
+    "cpu",
+    "gpu",
+    "memory",
+    "swap",
+    "disk",
+    "localip",
+    "battery",
+    "poweradapter",
+    "locale",
+    "break",
+    "colors"
+  ]
+}
