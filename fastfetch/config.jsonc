@@ -18,7 +18,7 @@
 
   "logo": {
     "type": "chafa",
-    "source": "$HOME/.config/fastfetch/avatar.png",
+    "source": "/home/giz/.config/fastfetch/avatar.png",
     "width": 29,
     "height": 37,
     "padding": {
@@ -77,13 +77,13 @@
 {
   "type": "command",
   "key": "Monitor 1",
-  "text": "source \"$HOME/.config/fastfetch/devices.conf\"; mode=$(kscreen-doctor -o 2>/dev/null | grep \"$MONITOR_1_PORT\" -A20 | grep 'Geometry:' | sed 's/.*Geometry:[[:space:]]*//' | awk '{print $2}'); [ -z \"$mode\" ] && mode=\"$MONITOR_1_FALLBACK_MODE\"; primary=$(kscreen-doctor -o 2>/dev/null | grep -B20 'priority 1' | grep -F -o \"$MONITOR_1_PORT\" | head -n1); if [ \"$primary\" = \"$MONITOR_1_PORT\" ]; then echo -e \"$MONITOR_1, ${mode} @ ${MONITOR_1_SIZE}, ${MONITOR_1_REFRESH} \\033[32m*\\033[0m\"; else echo \"$MONITOR_1, ${mode} @ ${MONITOR_1_SIZE}, ${MONITOR_1_REFRESH}\"; fi"
+  "text": "source \"/home/giz/.config/fastfetch/devices.conf\"; mode=$(/home/giz/.config/fastfetch/get-drm-mode.sh \"$MONITOR_1_PORT\" \"$MONITOR_1_FALLBACK_MODE\"); primary=$(kscreen-doctor -o 2>/dev/null | grep -B20 'priority 1' | grep -F -o \"$MONITOR_1_PORT\" | head -n1); if [ \"$primary\" = \"$MONITOR_1_PORT\" ]; then echo -e \"$MONITOR_1, ${mode} @ ${MONITOR_1_SIZE}, ${MONITOR_1_REFRESH} \\033[32m*\\033[0m\"; else echo \"$MONITOR_1, ${mode} @ ${MONITOR_1_SIZE}, ${MONITOR_1_REFRESH}\"; fi"
 },
 
 {
   "type": "command",
   "key": "Monitor 2",
-  "text": "source \"$HOME/.config/fastfetch/devices.conf\"; mode=$(kscreen-doctor -o 2>/dev/null | grep \"$MONITOR_2_PORT\" -A20 | grep 'Geometry:' | sed 's/.*Geometry:[[:space:]]*//' | awk '{print $2}'); [ -z \"$mode\" ] && mode=\"$MONITOR_2_FALLBACK_MODE\"; primary=$(kscreen-doctor -o 2>/dev/null | grep -B20 'priority 1' | grep -F -o \"$MONITOR_2_PORT\" | head -n1); if [ \"$primary\" = \"$MONITOR_2_PORT\" ]; then echo -e \"$MONITOR_2, ${mode} @ ${MONITOR_2_SIZE}, ${MONITOR_2_REFRESH} \\033[32m*\\033[0m\"; else echo \"$MONITOR_2, ${mode} @ ${MONITOR_2_SIZE}, ${MONITOR_2_REFRESH}\"; fi"
+  "text": "source \"/home/giz/.config/fastfetch/devices.conf\"; mode=$(/home/giz/.config/fastfetch/get-drm-mode.sh \"$MONITOR_2_PORT\" \"$MONITOR_2_FALLBACK_MODE\"); primary=$(kscreen-doctor -o 2>/dev/null | grep -B20 'priority 1' | grep -F -o \"$MONITOR_2_PORT\" | head -n1); if [ \"$primary\" = \"$MONITOR_2_PORT\" ]; then echo -e \"$MONITOR_2, ${mode} @ ${MONITOR_2_SIZE}, ${MONITOR_2_REFRESH} \\033[32m*\\033[0m\"; else echo \"$MONITOR_2, ${mode} @ ${MONITOR_2_SIZE}, ${MONITOR_2_REFRESH}\"; fi"
 },
 
 {
@@ -106,19 +106,19 @@
     {
       "type": "command",
       "key": "Headphones",
-      "text": "source \"$HOME/.config/fastfetch/devices.conf\"; active=0; for id in $(wpctl list audio sinks 2>/dev/null | awk '/audio\\/sink/ {print $1}'); do if wpctl inspect \"$id\" 2>/dev/null | grep -qi \"alsa.components = \\\"USB$HEADPHONES_ID\\\"\"; then if wpctl list audio sinks 2>/dev/null | awk -v id=\"$id\" '$1 == id && $NF == \"*\"' | grep -q .; then active=1; fi; break; fi; done; if [ \"$active\" -eq 1 ]; then echo -e \"$HEADPHONES \\033[32m*\\033[0m\"; else echo \"$HEADPHONES\"; fi"
+      "text": "source \"/home/giz/.config/fastfetch/devices.conf\"; active=0; for id in $(wpctl list audio sinks 2>/dev/null | awk '/audio\\/sink/ {print $1}'); do if wpctl inspect \"$id\" 2>/dev/null | grep -qi \"alsa.components = \\\"USB$HEADPHONES_ID\\\"\"; then if wpctl list audio sinks 2>/dev/null | awk -v id=\"$id\" '$1 == id && $NF == \"*\"' | grep -q .; then active=1; fi; break; fi; done; if [ \"$active\" -eq 1 ]; then echo -e \"$HEADPHONES \\033[32m*\\033[0m\"; else echo \"$HEADPHONES\"; fi"
     },
 
     {
       "type": "command",
       "key": "Speakers",
-      "text": "source \"$HOME/.config/fastfetch/devices.conf\"; active=0; for id in $(wpctl list audio sinks 2>/dev/null | awk '/audio\\/sink/ {print $1}'); do if wpctl inspect \"$id\" 2>/dev/null | grep -qi \"alsa.components = \\\"USB$SPEAKERS_ID\\\"\"; then if wpctl list audio sinks 2>/dev/null | awk -v id=\"$id\" '$1 == id && $NF == \"*\"' | grep -q .; then active=1; fi; break; fi; done; if [ \"$active\" -eq 1 ]; then echo -e \"$SPEAKERS \\033[32m*\\033[0m\"; else echo \"$SPEAKERS\"; fi"
+      "text": "source \"/home/giz/.config/fastfetch/devices.conf\"; active=0; for id in $(wpctl list audio sinks 2>/dev/null | awk '/audio\\/sink/ {print $1}'); do if wpctl inspect \"$id\" 2>/dev/null | grep -qi \"alsa.components = \\\"USB$SPEAKERS_ID\\\"\"; then if wpctl list audio sinks 2>/dev/null | awk -v id=\"$id\" '$1 == id && $NF == \"*\"' | grep -q .; then active=1; fi; break; fi; done; if [ \"$active\" -eq 1 ]; then echo -e \"$SPEAKERS \\033[32m*\\033[0m\"; else echo \"$SPEAKERS\"; fi"
     },
 
     {
       "type": "command",
       "key": "Microphone",
-      "text": "source \"$HOME/.config/fastfetch/devices.conf\"; active=0; for id in $(wpctl list audio sources 2>/dev/null | awk '/audio\\/source/ {print $1}'); do if wpctl inspect \"$id\" 2>/dev/null | grep -qi \"alsa.components = \\\"USB$MICROPHONE_ID\\\"\"; then if wpctl list audio sources 2>/dev/null | awk -v id=\"$id\" '$1 == id && $NF == \"*\"' | grep -q .; then active=1; fi; break; fi; done; if [ \"$active\" -eq 1 ]; then echo -e \"$MICROPHONE \\033[32m*\\033[0m\"; else echo \"$MICROPHONE\"; fi"
+      "text": "source \"/home/giz/.config/fastfetch/devices.conf\"; active=0; for id in $(wpctl list audio sources 2>/dev/null | awk '/audio\\/source/ {print $1}'); do if wpctl inspect \"$id\" 2>/dev/null | grep -qi \"alsa.components = \\\"USB$MICROPHONE_ID\\\"\"; then if wpctl list audio sources 2>/dev/null | awk -v id=\"$id\" '$1 == id && $NF == \"*\"' | grep -q .; then active=1; fi; break; fi; done; if [ \"$active\" -eq 1 ]; then echo -e \"$MICROPHONE \\033[32m*\\033[0m\"; else echo \"$MICROPHONE\"; fi"
     },
 
     // ═══════════════════════════════════════════════════════
@@ -157,7 +157,7 @@
   "type": "command",
   "key": "Model",
   "keyWidth": 8,
-  "text": "source \"$HOME/.config/fastfetch/devices.conf\"; echo \"$MEMORY\""
+  "text": "source \"/home/giz/.config/fastfetch/devices.conf\"; echo \"$MEMORY\""
 },
 
 // ═══════════════════════════════════════════════════════
@@ -184,12 +184,7 @@
   "text": "~/.config/fastfetch/usage.sh /mnt/DOWNLOADS"
 },
 
-{
-  "type": "command",
-  "key": "/mnt/FAST_GAMES",
-  "keyWidth": 17,
-  "text": "~/.config/fastfetch/usage.sh /mnt/FAST_GAMES"
-},
+
 
 {
   "type": "command",
@@ -226,6 +221,13 @@
   "text": "~/.config/fastfetch/usage.sh /mnt/STORAGE"
 },
 
+{
+  "type": "command",
+  "key": "WORK_SSD",
+  "keyWidth": 17,
+  "text": "~/.config/fastfetch/usb-drives.sh"
+},
+
     // ═══════════════════════════════════════════════════════
     // СЕТЬ
     // ═══════════════════════════════════════════════════════
@@ -252,13 +254,13 @@
     {
       "type": "command",
       "key": "Mouse",
-      "text": "source \"$HOME/.config/fastfetch/devices.conf\"; if lsusb | grep -q \"$MOUSE_ID\"; then echo \"$MOUSE\"; else echo 'Not detected'; fi"
+      "text": "source \"/home/giz/.config/fastfetch/devices.conf\"; if lsusb | grep -q \"$MOUSE_ID\"; then echo \"$MOUSE\"; else echo 'Not detected'; fi"
     },
 
     {
       "type": "command",
       "key": "Keyboard",
-      "text": "source \"$HOME/.config/fastfetch/devices.conf\"; if lsusb | grep -q \"$KEYBOARD_ID\"; then echo \"$KEYBOARD\"; else echo 'Not detected'; fi"
+      "text": "source \"/home/giz/.config/fastfetch/devices.conf\"; if lsusb | grep -q \"$KEYBOARD_ID\"; then echo \"$KEYBOARD\"; else echo 'Not detected'; fi"
     },
 
     "break"
